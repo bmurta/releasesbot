@@ -11,10 +11,13 @@ client.on("ready", () => {
 client.login(token);
 
 client.on("message", (msg) => {
-  switch (msg.content) {
-    case `${prefix}ping`:
+	if (msg.content.startsWith(`${prefix}ping`)) {
       msg.reply("pong");
-    case `${prefix}beep`:
+	}
+	else if (msg.content.startsWith(`${prefix}ping`)) {
       msg.reply("boop");
+	}
+    else if (msg.content.startsWith(`${prefix}nome`)) {
+      msg.reply(`O nominho do servidor é: ${msg.guild.name}, ele tem ${msg.guild.memberCount} membros\nFoi criado em ${msg.guild.createdAt}, e é do ${msg.guild.region}`);
   }
 });
