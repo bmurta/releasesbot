@@ -11,9 +11,10 @@ client.on("ready", () => {
 client.login(token);
 
 client.on("message", (msg) => {
-  if (msg.content === `${prefix}ping`) {
-    msg.reply("pong");
-  } else if (msg.content === `${prefix}beep`) {
-    msg.reply("boop");
+  switch (msg.content) {
+    case `${prefix}ping`:
+      msg.reply("pong");
+    case `${prefix}beep`:
+      msg.reply("boop");
   }
 });
