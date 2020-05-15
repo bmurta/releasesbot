@@ -1,5 +1,5 @@
 const { prefix } = require("./config.json");
-const { token } = require("./token.json");
+const { token, igdb_key } = require("./token.json");
 const Discord = require("discord.js");
 const axios = require("axios").default;
 const client = new Discord.Client();
@@ -53,7 +53,7 @@ client.on("message", (msg) => {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "user-key": "56fd14f1a21297c6372a2b8411e09389",
+          "user-key": igdb_key,
         },
         data: `fields *; search "${con}";`,
       })
