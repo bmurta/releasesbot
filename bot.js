@@ -26,9 +26,9 @@ client.on("message", (msg) => {
     }
     switch (args[0]) {
       case "tarde":
-        msg.reply("BOA TARDE");
+        return msg.reply("BOA TARDE");
       case "noite":
-        msg.reply("BOA NOITE");
+        return msg.reply("BOA NOITE");
     }
   }
   if (command === "args-info") {
