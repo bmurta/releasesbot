@@ -32,18 +32,6 @@ client.on("message", (msg) => {
         return msg.reply("BOA NOITE");
     }
   }
-  if (command === "args-info") {
-    if (!args.length) {
-      return msg.channel.send(`Cade os argumento??, ${msg.author}!`);
-    } else if (args[0] === "foo") {
-      msg.channel.send("bar");
-    }
-    msg.channel.send(`O comando foi: ${command}\nArgumento: ${args}`);
-  }
-
-  if (command === "ping") {
-    msg.reply("pong");
-  }
 
   if (command === "beep") {
     msg.reply("boop");
