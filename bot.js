@@ -54,22 +54,28 @@ client.on("message", (msg) => {
     );
   }
 
-  if (command === "switch") {
-    axios({
-      url: "https://api-v3.igdb.com/platforms",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "user-key": "56fd14f1a21297c6372a2b8411e09389",
-      },
-      data: 'fields *; search "Switch";',
-    })
-      .then((response) => {
-        console.log(response.data[0].id);
-        return msg.reply(`Este console é o ${response.data[0].name}`);
+  if (command.startsWith("console")) {
+    if (!args.length) {
+      return msg.reply(`Que console?`);
+    }
+    else {
+      var con = args.toString().replace(/,/g, " ")
+      axios({
+        url: "https://api-v3.igdb.com/platforms",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "user-key": "56fd14f1a21297c6372a2b8411e09389",
+        },
+        data: `fields *; search "${con}";`,
       })
-      .catch((err) => {
-        console.error(err);
-      });
+        .then((response) => {
+          console.log(response.data[0].id);
+          return msg.reply(`Este console é o ${response.data[0].name}\nOutros nomes: ${response.data[0].alternative_name}\nEle faz parte da ${response.data[0].generation}ª geração`);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }
 });
