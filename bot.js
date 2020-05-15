@@ -1,8 +1,18 @@
+const fs = require("fs");
 const { prefix } = require("./config.json");
 const { token, igdb_key } = require("./token.json");
 const Discord = require("discord.js");
-const axios = require("axios").default;
 const client = new Discord.Client();
+
+client.commands = new Discord.Collection();
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  client.commands.set(command.name, command);
+}
 
 client.login(token);
 
@@ -17,6 +27,15 @@ client.on("message", (msg) => {
   const args = msg.content.slice(prefix.length).split(" ");
   const command = args.shift().toLowerCase();
 
+  if (!client.commands.has(command)) return;
+
+	try {
+		client.commands.get(command).execute(msg, args);
+	} catch (error) {
+		console.error(error);
+		msg.reply('there was an error trying to execute that command!');
+  }
+  
   if (command === "midsommar") {
     msg.channel.send("A atriz não entrega");
   }
@@ -33,51 +52,9 @@ client.on("message", (msg) => {
     }
   }
 
-  if (command === "beep") {
-    msg.reply("boop");
-  }
-
   if (command === "nome") {
     msg.reply(
       `O nominho do servidor é: ${msg.guild.name}, ele tem ${msg.guild.memberCount} membros\nFoi criado em ${msg.guild.createdAt}, e é do ${msg.guild.region}`
     );
-  }
-
-  if (command.startsWith("console" || "Console")) {
-    if (!args.length) {
-      return msg.reply(`What console?`);
-    } else {
-      var con = args.toString().replace(/,/g, " ");
-      axios({
-        url: "https://api-v3.igdb.com/platforms",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "user-key": igdb_key,
-        },
-        data: `fields *; search "${con}";`,
-      })
-        .then((response) => {
-          console.log(response.data[0]);
-          if (!response.data[0]) {
-            return msg.reply("Console not found");
-          } else {
-            return msg.reply(
-              `This is the ${response.data[0].name},${
-                response.data[0].alternative_name
-                  ? `\nAlternative name: ${response.data[0].alternative_name}`
-                  : "\nNo other names found for this console"
-              }${
-                response.data[0].generation
-                  ? `\nIt belongs to the ${response.data[0].generation} generation`
-                  : ""
-              }`
-            );
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
   }
 });
