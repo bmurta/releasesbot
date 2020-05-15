@@ -8,6 +8,7 @@ client.login(token);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity("Eu só faço atrapalhar");
 });
 
 client.on("message", (msg) => {
