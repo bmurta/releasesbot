@@ -4,11 +4,11 @@ const { token } = require("./token.json");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
+client.login(token);
+
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
-
-client.login(token);
 
 client.on("message", (msg) => {
   if (!msg.content.startsWith(prefix) || msg.author.bot) return;
@@ -16,6 +16,21 @@ client.on("message", (msg) => {
   const args = msg.content.slice(prefix.length).split(" ");
   const command = args.shift().toLowerCase();
 
+  if (command === "midsommar") {
+    msg.channel.send("A atriz não entrega");
+  }
+
+  if (command === "boa") {
+    if (!args.length) {
+      return msg.reply("Boa tambem");
+    }
+    switch (args[0]) {
+      case "tarde":
+        msg.reply("BOA TARDE");
+      case "noite":
+        msg.reply("BOA NOITE");
+    }
+  }
   if (command === "args-info") {
     if (!args.length) {
       return msg.channel.send(`Cade os argumento??, ${msg.author}!`);
