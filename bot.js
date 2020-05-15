@@ -71,19 +71,21 @@ client.on("message", (msg) => {
       })
         .then((response) => {
           console.log(response.data[0]);
-          return response.data[0]
-            ? msg.reply(
-                `Este console é o ${response.data[0].name}\nOutros nomes: ${
-                  response.data[0].alternative_name
-                    ? response.data[0].alternative_name
-                    : "N/A"
-                }\nEle faz parte da ${
-                  response.data[0].generation
-                    ? response.data[0].generation
-                    : "N/A"
-                }ª geração`
-              )
-            : msg.reply("Console não encontrado");
+          if (!response.data[0]) {
+            return msg.reply("Console não encontrado");
+          } else {
+            return msg.reply(
+              `Este console é o ${response.data[0].name},${
+                response.data[0].alternative_name
+                  ? `\nOutros nomes: ${response.data[0].alternative_name}`
+                  : "\nNão tem nomes alternativos"
+              }${
+                response.data[0].generation
+                  ? `\nEle faz parte da ${response.data[0].generation}ª geração`
+                  : "\nSem informações de geração"
+              }`
+            );
+          }
         })
         .catch((err) => {
           console.error(err);
