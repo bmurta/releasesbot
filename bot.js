@@ -1,9 +1,8 @@
-// Run dotenv
 const { prefix } = require("./config.json");
 const { token } = require("./token.json");
 const Discord = require("discord.js");
-const client = new Discord.Client();
 const axios = require("axios").default;
+const client = new Discord.Client();
 
 client.login(token);
 
@@ -66,7 +65,7 @@ client.on("message", (msg) => {
       data: 'fields *; search "Switch";',
     })
       .then((response) => {
-        console.log((response.data[0].id));
+        console.log(response.data[0].id);
         return msg.reply(`Este console é o ${response.data[0].name}`);
       })
       .catch((err) => {
