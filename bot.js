@@ -57,9 +57,8 @@ client.on("message", (msg) => {
   if (command.startsWith("console")) {
     if (!args.length) {
       return msg.reply(`Que console?`);
-    }
-    else {
-      var con = args.toString().replace(/,/g, " ")
+    } else {
+      var con = args.toString().replace(/,/g, " ");
       axios({
         url: "https://api-v3.igdb.com/platforms",
         method: "POST",
@@ -70,8 +69,20 @@ client.on("message", (msg) => {
         data: `fields *; search "${con}";`,
       })
         .then((response) => {
-          console.log(response.data[0].id);
-          return msg.reply(`Este console é o ${response.data[0].name}\nOutros nomes: ${response.data[0].alternative_name}\nEle faz parte da ${response.data[0].generation}ª geração`);
+          console.log(response.data[0]);
+          return response.data[0]
+            ? msg.reply(
+                `Este console é o ${response.data[0].name}\nOutros nomes: ${
+                  response.data[0].alternative_name
+                    ? response.data[0].alternative_name
+                    : "N/A"
+                }\nEle faz parte da ${
+                  response.data[0].generation
+                    ? response.data[0].generation
+                    : "N/A"
+                }ª geração`
+              )
+            : msg.reply("Console não encontrado");
         })
         .catch((err) => {
           console.error(err);
