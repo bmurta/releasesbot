@@ -1,7 +1,7 @@
-// Run dotenv
 const { prefix } = require("./config.json");
 const { token } = require("./token.json");
 const Discord = require("discord.js");
+const axios = require("axios").default;
 const client = new Discord.Client();
 
 client.login(token);
@@ -52,5 +52,24 @@ client.on("message", (msg) => {
     msg.reply(
       `O nominho do servidor é: ${msg.guild.name}, ele tem ${msg.guild.memberCount} membros\nFoi criado em ${msg.guild.createdAt}, e é do ${msg.guild.region}`
     );
+  }
+
+  if (command === "switch") {
+    axios({
+      url: "https://api-v3.igdb.com/platforms",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "user-key": "56fd14f1a21297c6372a2b8411e09389",
+      },
+      data: 'fields *; search "Switch";',
+    })
+      .then((response) => {
+        console.log(response.data[0].id);
+        return msg.reply(`Este console é o ${response.data[0].name}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 });
