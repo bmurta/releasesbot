@@ -55,9 +55,9 @@ client.on("message", (msg) => {
     );
   }
 
-  if (command.startsWith("console")) {
+  if (command.startsWith("console" || "Console")) {
     if (!args.length) {
-      return msg.reply(`Que console?`);
+      return msg.reply(`What console?`);
     } else {
       var con = args.toString().replace(/,/g, " ");
       axios({
@@ -72,17 +72,17 @@ client.on("message", (msg) => {
         .then((response) => {
           console.log(response.data[0]);
           if (!response.data[0]) {
-            return msg.reply("Console não encontrado");
+            return msg.reply("Console not found");
           } else {
             return msg.reply(
-              `Este console é o ${response.data[0].name},${
+              `This is the ${response.data[0].name},${
                 response.data[0].alternative_name
-                  ? `\nOutros nomes: ${response.data[0].alternative_name}`
-                  : "\nNão tem nomes alternativos"
+                  ? `\nAlternative name: ${response.data[0].alternative_name}`
+                  : "\nNo other names found for this console"
               }${
                 response.data[0].generation
-                  ? `\nEle faz parte da ${response.data[0].generation}ª geração`
-                  : "\nSem informações de geração"
+                  ? `\nIt belongs to the ${response.data[0].generation} generation`
+                  : ""
               }`
             );
           }
