@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const { igdb_key } = require("../token.json");
+const { igdb_key } = PROCESS.ENV.igdb_key;
 
 module.exports = {
 	name: 'console',
