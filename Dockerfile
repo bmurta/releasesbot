@@ -1,6 +1,6 @@
-FROM node:10
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm i
-COPY . .
+FROM  node:12-alpine
+WORKDIR /app
+COPY package.json package-lock.json /app/
+RUN npm ci
+COPY . /app/
 CMD node bot.js
