@@ -1,9 +1,10 @@
-var moment = require("moment-timezone");
 
 const axios = require("axios").default;
 const { IGDB_KEY } = require("../token.json");
 
-let now = moment().tz("America/Bahia").valueOf();
+var date = new Date();
+var now = date. getTime()
+
 console.log(now);
 module.exports = {
   name: "releases",
