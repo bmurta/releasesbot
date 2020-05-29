@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const { igdb_key } = require("../token.json");
+const { IGDB_KEY } = require("../token.json");
 
 module.exports = {
 	name: 'console',
@@ -14,7 +14,7 @@ module.exports = {
               method: "POST",
               headers: {
                 Accept: "application/json",
-                "user-key": igdb_key,
+                "user-key": IGDB_KEY,
               },
               data: `fields *; search "${con}";`,
             })

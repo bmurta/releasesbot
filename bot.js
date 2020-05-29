@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { prefix } = require("./config.json");
-const { token } = require("./token.json");
+const { DISCORD_BOT_TOKEN } = require("./token.json");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
@@ -14,7 +14,7 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-client.login(token);
+client.login(DISCORD_BOT_TOKEN);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
