@@ -4,7 +4,8 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
+    "howlongtobeat": "^1.2.1",
+    "moment": "^2.26.0",
+    "moment-timezone": "^0.5.31",
     "prettier": "^2.0.5",
     "winston": "^3.2.1"
   }
