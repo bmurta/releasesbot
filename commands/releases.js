@@ -1,6 +1,6 @@
 
 const axios = require("axios").default;
-const { IGDB_KEY } = require("../token.json");
+const { IGDB_KEY } = process.env.IGDB_KEY;
 
 var date = new Date();
 var now = date. getTime()
