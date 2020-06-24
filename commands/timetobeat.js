@@ -4,7 +4,7 @@ let hltbService = new hltb.HowLongToBeatService();
 
 module.exports = {
   name: "timetobeat",
-  aliases: ["ttb"],
+  aliases: ["ttb", "beat"],
   description: "Shows the time to beat based on howlongtobeat.com",
   args: true,
   usage: "<game to search for>",
@@ -12,6 +12,7 @@ module.exports = {
     var gam = args.toString().replace(/,/g, " ");
     hltbService.search(gam).then((response) => {
       console.log(response);
+
       var main = response[0].gameplayMain,
         extra = response[0].gameplayMainExtra,
         completionist = response[0].gameplayCompletionist,

@@ -27,16 +27,20 @@ client.on("message", (msg) => {
   const args = msg.content.slice(prefix.length).split(" ");
   const commandName = args.shift().toLowerCase();
 
-  if (!client.commands.has(commandName)) return;
+  const command =
+    client.commands.get(commandName) ||
+    client.commands.find(
+      (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+    );
 
-  const command = client.commands.get(commandName);
+  if (!command) return;
 
   if (command.args && !args.length) {
     if (command.usage) {
-    	reply = `\nThe proper usage for this command would be: \`${prefix}${command.name} ${command.usage}\``;
+      reply = `\nThe proper usage for this command would be: \`${prefix}${command.name} ${command.usage}\``;
     }
     return msg.reply(reply);
-	}
+  }
 
   try {
     command.execute(msg, args);
