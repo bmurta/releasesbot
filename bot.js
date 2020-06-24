@@ -25,36 +25,20 @@ client.on("message", (msg) => {
   if (!msg.content.startsWith(prefix) || msg.author.bot) return;
 
   const args = msg.content.slice(prefix.length).split(" ");
-  const command = args.shift().toLowerCase();
+  const commandName = args.shift().toLowerCase();
 
-  if (!client.commands.has(command)) return;
+  if (!client.commands.has(commandName)) return;
 
-	try {
-		client.commands.get(command).execute(msg, args);
-	} catch (error) {
-		console.error(error);
-		msg.reply('there was an error trying to execute that command!');
-  }
-  
-  if (command === "midsommar") {
-    msg.channel.send("A atriz não entrega");
-  }
+  const command = client.commands.get(commandName);
 
-  if (command === "boa") {
-    if (!args.length) {
-      return msg.reply("Boa tambem");
-    }
-    switch (args[0]) {
-      case "tarde":
-        return msg.reply("BOA TARDE");
-      case "noite":
-        return msg.reply("BOA NOITE");
-    }
-  }
+  if (command.args && !args.length) {
+  	return msg.channel.send(`I need a name to search for ${msg.author}!`);
+	}
 
-  if (command === "nome") {
-    msg.reply(
-      `O nominho do servidor é: ${msg.guild.name}, ele tem ${msg.guild.memberCount} membros\nFoi criado em ${msg.guild.createdAt}, e é do ${msg.guild.region}`
-    );
+  try {
+    command.execute(msg, args);
+  } catch (error) {
+    console.error(error);
+    msg.reply("there was an error trying to execute that command!");
   }
 });
