@@ -13,6 +13,10 @@ module.exports = {
     hltbService.search(gam).then((response) => {
       console.log(response);
 
+      if(response[0] === undefined) {
+        return msg.reply("Game not found")
+      }
+
       var main = response[0].gameplayMain,
         extra = response[0].gameplayMainExtra,
         completionist = response[0].gameplayCompletionist,
