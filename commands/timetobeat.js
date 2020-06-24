@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 let hltb = require("howlongtobeat");
 let hltbService = new hltb.HowLongToBeatService();
 
@@ -14,10 +15,32 @@ module.exports = {
         var main = response[0].gameplayMain,
           extra = response[0].gameplayMainExtra,
           completionist = response[0].gameplayCompletionist,
-          name = response[0].name;
-        return msg.channel.send(
-          `The average times to beat ${name} are:\n Main Story: ${main} hours\n Main Story + Extras: ${extra} hours\n Completionist: ${completionist} hours`
-        );
+          gameName = response[0].name;
+
+        const messageEmbed = new Discord.MessageEmbed()
+          .setColor("#0099ff")
+          .setTitle(gameName)
+          .setDescription(`The average times to beat ${gameName} are:`)
+          .setThumbnail(response[0].imageUrl)
+          .addFields(
+            {
+              name: "Main Story:",
+			  value: main,
+			  inline: true
+            },
+            {
+              name: "Main Story + Extras:",
+			  value: extra,
+			  inline: true
+			},
+			{
+			  name: "Completionist:",
+			  value: completionist
+			}
+          )
+          .setTimestamp()
+
+        return msg.channel.send(messageEmbed);
       });
     }
   },
