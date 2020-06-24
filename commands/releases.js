@@ -9,6 +9,7 @@ module.exports = {
   name: "releases",
   description: "Returns todays Releases for the console",
   args: true,
+  usage: "<Platform to search for>",
   execute(msg, args) {
     var con = args.toString().replace(/,/g, " ");
     axios({

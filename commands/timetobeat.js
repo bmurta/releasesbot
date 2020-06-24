@@ -7,6 +7,7 @@ module.exports = {
   aliases: ["ttb"],
   description: "Shows the time to beat based on howlongtobeat.com",
   args: true,
+  usage: "<game to search for>",
   execute(msg, args) {
     var gam = args.toString().replace(/,/g, " ");
     hltbService.search(gam).then((response) => {

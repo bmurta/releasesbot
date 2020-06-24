@@ -32,7 +32,10 @@ client.on("message", (msg) => {
   const command = client.commands.get(commandName);
 
   if (command.args && !args.length) {
-  	return msg.channel.send(`I need a name to search for ${msg.author}!`);
+    if (command.usage) {
+    	reply = `\nThe proper usage for this command would be: \`${prefix}${command.name} ${command.usage}\``;
+    }
+    return msg.reply(reply);
 	}
 
   try {
