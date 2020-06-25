@@ -43,7 +43,8 @@ module.exports = {
             value: completionist + "h",
           }
         )
-        .setTimestamp();
+        .setTimestamp()
+        .setFooter('Data extracted from howlongtobeat.com', 'http://howlongtobeat.com/img/hltb_brand.png');
 
       return msg.channel.send(messageEmbed);
     });
