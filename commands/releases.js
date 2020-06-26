@@ -1,8 +1,12 @@
-const axios = require("axios").default;
+const igdb = require("igdb-api-node").default;
 const { IGDB_KEY } = process.env.IGDB_KEY;
+const Discord = require("discord.js");
 
-var date = new Date();
-var now = date.getTime();
+var moment = require("moment-timezone");
+var now = moment().tz("America/Bahia").format("YYYY-MMM-DD");
+
+// var date = new Date();
+// var now = date.getTime();
 
 console.log(now);
 module.exports = {
@@ -11,32 +15,55 @@ module.exports = {
   args: true,
   usage: "<Platform to search for>",
   execute(msg, args) {
-    var con = args.toString().replace(/,/g, " ");
-    axios({
-      url: "https://api-v3.igdb.com/platforms",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "user-key": IGDB_KEY,
-      },
-      data: `fields *; search "${con}";`,
-    }).then((response) => {
-      const id = response.data[0].id;
-      const name = response.data[0].name;
+    const igdbClient = igdb(IGDB_KEY);
 
-      axios({
-        url: "https://api-v3.igdb.com/games",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "user-key": IGDB_KEY,
-        },
-        data: `fields *; where platforms = ${id} & release_dates = ${now}; sort date desc;`,
-      }).then((response) => {
-        console.log(response.data[0]);
-        return msg.reply(
-          `Todays releases for the ${name} are:\n ${response.data[0].name}`
-        );
+    var con = args.toString().replace(/,/g, " ");
+
+    async function platform() {
+      var thisplatform = await igdbClient
+        .fields(["id", "name"])
+        .limit(1)
+        .search(con)
+        .request("/platforms")
+        .then((response) => {
+          return (thisplatform = response.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      return thisplatform;
+    }
+
+    platform().then((plat) => {
+      const platId = plat[0].id;
+
+      async function todayids() {
+        var ids = await igdbClient
+          .fields(["game.name"])
+          .where(`(platform = ${platId}) & (human = "${now}")`)
+          .request("/release_dates")
+          .then((response) => {
+            return (ids = response.data);
+          });
+        return ids;
+      }
+
+      todayids().then((ids) => {
+        const result = ids.map((a) => a.game.name);
+
+        console.log(result);
+
+        try {
+        const embed = new Discord.MessageEmbed()
+          .setColor("#0099ff")
+          .setTitle(`${plat[0].name}`)
+          .setDescription(`${now}`)
+          .addFields({ name: "Games", value: result });
+
+          return msg.channel.send(embed);
+        } catch {
+          return msg.channel.send(`No ${plat[0].name} releases today`)
+        }
       });
     });
   },
