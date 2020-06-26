@@ -1,5 +1,4 @@
 const igdb = require("igdb-api-node").default;
-const { IGDB_KEY } = process.env.IGDB_KEY;
 const Discord = require("discord.js");
 
 var moment = require("moment-timezone");
@@ -15,7 +14,7 @@ module.exports = {
   args: true,
   usage: "<Platform to search for>",
   execute(msg, args) {
-    const igdbClient = igdb(IGDB_KEY);
+    const igdbClient = igdb(process.env.IGDB_KEY);
 
     var con = args.toString().replace(/,/g, " ");
 
