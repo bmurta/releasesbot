@@ -1,7 +1,8 @@
 const igdb = require("igdb-api-node").default;
 const { IGDB_KEY } = require("../token.json");
+const Discord = require("discord.js");
 
-var moment = require('moment-timezone');
+var moment = require("moment-timezone");
 var now = moment().tz("America/Bahia").format("YYYY-MMM-DD");
 
 // var date = new Date();
@@ -48,10 +49,21 @@ module.exports = {
       }
 
       todayids().then((ids) => {
-        const result = ids.map(a=> a.game.name)
-        console.log(result)
-        
-        return msg.channel.send(result)
+        const result = ids.map((a) => a.game.name);
+
+        console.log(result);
+
+        try {
+        const embed = new Discord.MessageEmbed()
+          .setColor("#0099ff")
+          .setTitle(`${plat[0].name}`)
+          .setDescription(`${now}`)
+          .addFields({ name: "Games", value: result });
+
+          return msg.channel.send(embed);
+        } catch {
+          return msg.channel.send(`No ${plat[0].name} releases today`)
+        }
       });
     });
   },
