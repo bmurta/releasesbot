@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/bmurta/releasesbot#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "discord.js": "^12.2.0",
     "howlongtobeat": "^1.2.1",
     "igdb-api-node": "^4.0.4",
