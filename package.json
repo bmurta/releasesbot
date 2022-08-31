@@ -23,7 +23,7 @@
     "howlongtobeat": "^1.2.1",
     "igdb-api-node": "^4.0.4",
     "moment": "^2.29.2",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.35",
     "prettier": "^2.0.5",
     "winston": "^3.2.1"
   }
